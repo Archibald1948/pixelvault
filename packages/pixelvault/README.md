@@ -1,4 +1,4 @@
-# @archibald1948/pixelvault
+# @sc0031/pixelvault
 
 Resize, convert, strip EXIF and generate BlurHash placeholders **entirely in the browser** — no upload, no server.
 The pipeline is written in Rust, compiled to WebAssembly, and runs in a pool of Web Workers so your UI never freezes.
@@ -17,13 +17,13 @@ The pipeline is written in Rust, compiled to WebAssembly, and runs in a pool of 
 ## Install
 
 ```bash
-npm install @archibald1948/pixelvault
+npm install @sc0031/pixelvault
 ```
 
 ## Usage
 
 ```ts
-import { createPixelVault } from "@archibald1948/pixelvault";
+import { createPixelVault } from "@sc0031/pixelvault";
 
 const vault = createPixelVault(); // spawns up to 4 workers lazily
 
@@ -55,7 +55,7 @@ const items = await vault.processMany(files, { format: "webp", maxWidth: 1920 },
 ### Main-thread API
 
 ```ts
-import { processImage } from "@archibald1948/pixelvault";
+import { processImage } from "@sc0031/pixelvault";
 
 // Blocks the calling thread while processing — fine inside your own worker, or for small images.
 const result = await processImage(bytesOrBlob, { format: "jpeg", maxWidth: 800 });
@@ -64,7 +64,7 @@ const result = await processImage(bytesOrBlob, { format: "jpeg", maxWidth: 800 }
 ### Rendering a BlurHash
 
 ```ts
-import { decodeBlurhash } from "@archibald1948/pixelvault";
+import { decodeBlurhash } from "@sc0031/pixelvault";
 
 const pixels = await decodeBlurhash(result.blurhash!, 32, 24);
 canvas.getContext("2d")!.putImageData(new ImageData(pixels, 32, 24), 0, 0);
@@ -110,7 +110,7 @@ The package uses the standard `new Worker(new URL("./worker.js", import.meta.url
 
 - **Older Vite versions**: if the worker or `.wasm` fails to load in the dev server, exclude the package from dependency pre-bundling so the `import.meta.url` references survive:
   ```ts
-  export default defineConfig({ optimizeDeps: { exclude: ["@archibald1948/pixelvault"] } });
+  export default defineConfig({ optimizeDeps: { exclude: ["@sc0031/pixelvault"] } });
   ```
 - **Content Security Policy**: WebAssembly needs `script-src 'wasm-unsafe-eval'`, and workers need `worker-src 'self'`.
 - No `SharedArrayBuffer`, so **no COOP/COEP headers** are required.

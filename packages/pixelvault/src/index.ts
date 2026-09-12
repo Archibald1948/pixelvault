@@ -2,7 +2,7 @@
  * pixelvault — 브라우저 안에서 끝나는 이미지 처리 파이프라인 (Rust → WebAssembly)
  *
  * ```ts
- * import { createPixelVault } from "@archibald1948/pixelvault";
+ * import { createPixelVault } from "@sc0031/pixelvault";
  *
  * const vault = createPixelVault();               // Web Worker 풀 (메인 스레드를 막지 않음)
  * const result = await vault.process(file, { format: "webp", maxWidth: 1920 });
