@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { OutputFormat } from "@archibald1948/pixelvault";
+import type { OutputFormat } from "@sc0031/pixelvault";
 import { formatBytes, getVault } from "@/lib/pixelvault";
 import { generateSamplePhoto, runBenchmark, toMarkdown, type BenchConfig, type BenchRow } from "@/lib/bench";
 import styles from "./Benchmark.module.css";

@@ -1,5 +1,5 @@
 // 데모 앱에서 쓰는 pixelvault 헬퍼. 실제 로직은 packages/pixelvault (npm 패키지) 에 있다.
-import { createPixelVault, type PixelVault } from "@archibald1948/pixelvault";
+import { createPixelVault, type PixelVault } from "@sc0031/pixelvault";
 
 export {
   decodeBlurhash,
@@ -9,7 +9,7 @@ export {
   type OutputFormat,
   type ProcessOptions,
   type ProcessResult,
-} from "@archibald1948/pixelvault";
+} from "@sc0031/pixelvault";
 
 let vault: PixelVault | null = null;
 

@@ -9,7 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@archibald1948/pixelvault": "file:../packages/pixelvault",
+    "@sc0031/pixelvault": "file:../packages/pixelvault",
     "next": "16.3.4",
     "react": "19.2.8",
     "react-dom": "19.2.8"

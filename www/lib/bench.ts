@@ -1,5 +1,5 @@
 // Canvas API(순수 JS) vs WASM 벤치마크 러너.
-import type { OutputFormat, PixelVault } from "@archibald1948/pixelvault";
+import type { OutputFormat, PixelVault } from "@sc0031/pixelvault";
 import { decodeToImageData, psnr, ssim } from "./metrics";
 
 export type Pipeline = "canvas" | "wasm";
