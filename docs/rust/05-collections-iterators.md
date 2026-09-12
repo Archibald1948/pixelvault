@@ -59,21 +59,24 @@ for (src, dst) in rgba.as_raw().chunks_exact(4).zip(out.chunks_exact_mut(3)) {
 - `zip`: 두 이터레이터를 짝지어 순회. 짧은 쪽에서 멈춘다.
 - JS 로 치면 `for (let i = 0; i < n; i++)` 인덱스 계산을 대신해 주면서, **경계 검사가 한 번만** 일어나 더 빠르다.
 
-### 이 레포에 나오는 어댑터들
+### 자주 쓰는 어댑터 (★ = 이 레포 코드에 실제로 나오는 것)
 
 ```rust
-.iter()            // &T 로 순회
-.iter_mut()        // &mut T 로 순회
-.into_iter()       // T 를 꺼내며 순회 (컬렉션 소비)
-.enumerate()       // (인덱스, 값)
-.map(f)            // 변환
-.filter(p)         // 걸러내기
-.any(p) / .all(p)  // bool
-.sum::<i32>()      // 합계 (타입을 알려 줘야 할 때 터보피시 ::<>)
-.collect()         // 다시 컬렉션으로
-.min() / .max()
-.rev()             // 역순
-.flatten()         // 중첩 펼치기
+.iter()            // ★ &T 로 순회
+.iter_mut()        //   &mut T 로 순회
+.into_iter()       //   T 를 꺼내며 순회 (컬렉션 소비)
+.enumerate()       // ★ (인덱스, 값)
+.map(f)            // ★ 변환
+.filter(p)         // ★ 걸러내기
+.any(p) / .all(p)  // ★ bool
+.sum::<i32>()      // ★ 합계 (타입을 알려 줘야 할 때 터보피시 ::<>)
+.collect()         // ★ 다시 컬렉션으로
+.chunks_exact(n)   // ★ n개씩 잘라 보기
+.zip(other)        // ★ 짝지어 순회
+.min() / .max()    //   최소/최대
+.rev()             //   역순
+.flatten()         //   중첩 펼치기 (Option 에도 같은 이름의 메서드가 있다:
+                   //   `decoder.icc_profile().ok().flatten()` 은 Option<Option<T>> → Option<T>)
 ```
 
 실제 사용례:
