@@ -63,7 +63,14 @@ mod tests {
         // 가장 작은 단계도 0 이 아니라서, 단색 이미지에도 약한 무늬가 생긴다(알고리즘 특성).
         // 대신 평균 색(DC 성분)은 정확히 보존된다.
         let n = (px.len() / 4) as i32;
-        let avg = |c: usize| px.chunks_exact(4).map(|p| i32::from(p[c])).sum::<i32>() / n;
+        let avg = |c: usize| {
+            px.as_chunks::<4>()
+                .0
+                .iter()
+                .map(|p| i32::from(p[c]))
+                .sum::<i32>()
+                / n
+        };
         let (r, g, b) = (avg(0), avg(1), avg(2));
         assert!(
             (r - 200).abs() <= 2 && (g - 80).abs() <= 2 && (b - 40).abs() <= 2,
