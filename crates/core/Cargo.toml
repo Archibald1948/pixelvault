@@ -1,0 +1,33 @@
+[package]
+name = "pixelvault-core"
+description = "순수 Rust 이미지 파이프라인 (decode → resize → encode). wasm 의존성 없음."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+# 디코드/인코드. default-features 를 끄고 필요한 포맷만 켠다 → wasm 바이너리 크기 절약.
+image = { version = "0.25", default-features = false, features = ["jpeg", "png", "webp"] }
+# SIMD 리사이즈. "image" feature(DynamicImage 직접 지원)는 모든 픽셀 타입 코드를 끌어와서
+# wasm 이 수백 KB 커지므로 쓰지 않는다. resize.rs 에서 RGB8/RGBA8 만 타입으로 고정해 호출한다.
+fast_image_resize = "6.1"
+# JPEG 인코딩. image 크레이트 내장 인코더는 4:2:2 + 고정 허프만 테이블이라 같은 품질에서 ~50% 크다.
+# jpeg-encoder 는 4:2:0 크로마 서브샘플링 + 최적화 허프만 테이블을 지원한다. (디코드는 여전히 image/zune-jpeg)
+jpeg-encoder = "0.7"
+# 손실 WebP 인코딩(libwebp 바인딩). 기본 feature 가 image 를 통째로 끌어오므로 끈다.
+webp = { version = "0.3", default-features = false }
+# EXIF 파싱 (Orientation, GPS). 크레이트 이름은 kamadak-exif, 코드에서는 `exif` 로 쓴다.
+kamadak-exif = "0.6"
+# BlurHash 인코딩/디코딩. 기본 feature(fast-linear-to-srgb)는 룩업 테이블 근사라 끄고 정확한 변환을 쓴다.
+# (문자열 몇 개 만드는 데 드는 시간은 무시할 수준)
+blurhash = { version = "0.2", default-features = false }
+# 에러 enum 에 Display/Error 구현을 자동 생성
+thiserror = "2.0"
+
+# wasm32 에서만: libwebp(C) 가 필요로 하는 malloc/free 등을 채워 주는 셈.
+# (wasm-bindgen 같은 wasm "바인딩" 의존성이 아니라 C 링크용 부품이다)
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+pixelvault-wasm-libc = { path = "../wasm-libc" }
+
