@@ -9,8 +9,8 @@
 이미지를 **서버에 올리지 않고** 브라우저 메모리 안에서 리사이즈 · 포맷 변환 · EXIF 제거 · BlurHash 생성까지 끝냅니다.
 서버 비용 · 대역폭 · 프라이버시 문제가 한 번에 사라집니다.
 
+- **데모 사이트**: **https://pixelvault-rouge.vercel.app** — [변환기](https://pixelvault-rouge.vercel.app/) · [벤치마크](https://pixelvault-rouge.vercel.app/bench)
 - **npm 패키지**: [`@archibald1948/pixelvault`](packages/pixelvault) — Web Worker 풀 + 타입 포함
-- **데모 사이트**: `www/` (Next.js App Router) — 변환기 + Canvas API 비교 벤치마크
 - **학습 문서**: [`docs/`](docs/README.md) — 마일스톤별 설계 결정과 Rust 학습 포인트
 
 ## 기능

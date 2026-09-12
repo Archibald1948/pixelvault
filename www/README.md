@@ -1,6 +1,6 @@
 # pixelvault 데모 사이트
 
-Next.js (App Router) 데모. 레포 루트의 [README](../README.md) 참고.
+Next.js (App Router) 데모. 배포: **https://pixelvault-rouge.vercel.app** · 레포 루트의 [README](../README.md) 참고.
 
 - `/` — 변환기: 여러 파일 → Web Worker 풀로 변환, 메인 스레드 모니터, EXIF/BlurHash 표시
 - `/bench` — Canvas API vs WASM 벤치마크
