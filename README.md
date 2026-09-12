@@ -4,13 +4,17 @@
 >
 > Resize, convert, strip EXIF and generate BlurHash entirely in the browser. No upload, no server.
 
+[![npm](https://img.shields.io/npm/v/@sc0031/pixelvault?color=cb3837&logo=npm)](https://www.npmjs.com/package/@sc0031/pixelvault)
+[![CI](https://github.com/Archibald1948/pixelvault/actions/workflows/ci.yml/badge.svg)](https://github.com/Archibald1948/pixelvault/actions/workflows/ci.yml)
+[![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+
 ![demo](docs/images/demo.gif)
 
 이미지를 **서버에 올리지 않고** 브라우저 메모리 안에서 리사이즈 · 포맷 변환 · EXIF 제거 · BlurHash 생성까지 끝냅니다.
 서버 비용 · 대역폭 · 프라이버시 문제가 한 번에 사라집니다.
 
 - **데모 사이트**: **https://pixelvault-rouge.vercel.app** — [변환기](https://pixelvault-rouge.vercel.app/) · [벤치마크](https://pixelvault-rouge.vercel.app/bench)
-- **npm 패키지**: [`@sc0031/pixelvault`](packages/pixelvault) — Web Worker 풀 + 타입 포함
+- **npm 패키지**: **[`@sc0031/pixelvault`](https://www.npmjs.com/package/@sc0031/pixelvault)** — Web Worker 풀 + 타입 포함 ([소스](packages/pixelvault))
 - **학습 문서**: [`docs/`](docs/README.md) — 마일스톤별 설계 결정과 Rust 학습 포인트
 
 ## 기능
@@ -25,6 +29,10 @@
 | BlurHash | 옵션으로 생성 + 디코더 제공 |
 | 스레드 | Web Worker 풀. `File` 을 워커에서 직접 읽고, 결과는 Transferable 로 복사 없이 반환 |
 | 크기 | wasm **407 KB** (gzip) |
+
+```bash
+npm install @sc0031/pixelvault
+```
 
 ```ts
 import { createPixelVault } from "@sc0031/pixelvault";
