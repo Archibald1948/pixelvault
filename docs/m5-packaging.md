@@ -10,8 +10,8 @@
 | 패키지 README (영문) | `packages/pixelvault/README.md` | ✅ |
 | 서드파티 고지 | `packages/pixelvault/THIRD_PARTY_NOTICES.md` | ✅ libwebp·kamadak-exif(BSD), IJG |
 | 루트 README + 벤치 표 + GIF | `README.md`, `docs/images/demo.gif` | ✅ |
-| CI | `.github/workflows/ci.yml` | 작성 완료, 첫 push 후 동작 확인 필요 |
-| Vercel 배포 | `.github/workflows/deploy.yml` | 작성 완료, **Vercel 계정 연결 필요** |
+| CI | `.github/workflows/ci.yml` | ✅ Linux 에서 통과 확인 |
+| Vercel 배포 | `.github/workflows/deploy.yml` | ✅ 배포됨: https://pixelvault-rouge.vercel.app (Actions 자동 배포는 토큰 필요) |
 | 번들러 호환성 | Next.js 16 (Turbopack), Vite 8 dev/build | ✅ 실제로 설치해서 확인 |
 
 ## npm 패키지 구조
@@ -58,38 +58,51 @@ npm publish                        # publishConfig.access=public 이라 스코�
 
 ## Vercel 배포
 
+> 배포됨: **https://pixelvault-rouge.vercel.app**
+
 ### 왜 Vercel 이 직접 빌드하게 하지 않나
 
 Vercel 의 기본 빌드 서버에는 Rust, wasm-pack, 그리고 **wasm32 를 지원하는 clang**(libwebp 컴파일용)이 없다.
-그래서 **GitHub Actions 에서 전부 빌드하고, 결과물만 Vercel 로 올리는** prebuilt 방식을 쓴다.
+그래서 **로컬 또는 GitHub Actions 에서 전부 빌드하고, 결과물만 Vercel 로 올리는** prebuilt 방식을 쓴다.
 
-### 설정 순서
+### 왜 정적 사이트로 내보내나
 
-1. Vercel 에 로그인하고, 로컬에서 프로젝트를 만든다:
-   ```bash
-   cd www
-   npx vercel link          # 새 프로젝트 생성. www 폴더 자체가 프로젝트 루트가 된다
-   cat .vercel/project.json # orgId, projectId 확인 (.vercel 은 gitignore 됨)
-   ```
-2. Vercel 대시보드 → Account Settings → Tokens 에서 토큰 발급
-3. GitHub 레포 → Settings → Secrets and variables → Actions
-   - Secrets: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
-   - Variables: `VERCEL_DEPLOY` = `true`
-4. main 에 push 하거나 Actions 탭에서 "Deploy demo (Vercel)" 를 수동 실행
+이 데모는 **서버에서 하는 일이 하나도 없다**(모든 페이지가 정적, 이미지 처리는 브라우저에서).
+그래서 Next.js 의 정적 내보내기(`output: "export"`)로 HTML/JS/wasm 파일만 만들어 올린다.
 
-### 로컬에서 바로 배포하고 싶다면
-
-로컬에는 툴체인이 다 있으므로:
+- Vercel 의 Next.js 빌더를 쓰면 모노레포 구조(`www` 가 하위 폴더)와 프로젝트 Root Directory 설정에 얽힌다.
+  실제로 `vercel build` 가 `www/www/.next` 를 찾는 문제를 만났다.
+- 정적 파일만 올리면 그런 설정이 필요 없고, 빌드도 우리가 이미 하고 있다.
+- `next start`(벤치마크용 로컬 서버)는 정적 내보내기 모드와 함께 쓸 수 없으므로,
+  `next.config.ts` 에서 **`PIXELVAULT_STATIC_EXPORT=1` 일 때만** 내보내기 모드가 되게 했다.
 
 ```bash
 ./scripts/build-wasm.sh
 (cd packages/pixelvault && npm run build)
-cd www
-npx vercel build --prod
-npx vercel deploy --prebuilt --prod
+PIXELVAULT_STATIC_EXPORT=1 npm --prefix www run build   # → www/out
+node scripts/build-vercel-output.mjs                     # → www/.vercel/output (Build Output API v3)
+(cd www && npx vercel deploy --prebuilt --prod)
 ```
 
-배포 후 README 상단에 데모 URL 을 추가하자.
+`scripts/build-vercel-output.mjs` 가 하는 일은 두 가지다:
+1. `www/out` 을 `.vercel/output/static` 으로 복사
+2. `config.json` 에 **경로 매핑**을 적는다 — 정적 내보내기는 `/bench` 를 `bench.html` 로 만들기 때문에,
+   이걸 안 하면 `/bench` 가 404 가 된다(실제로 첫 배포에서 겪었다). 404 페이지 라우트도 여기서 연결한다.
+
+### 처음 한 번: 프로젝트 연결
+
+```bash
+cd www
+npx vercel link --yes --project pixelvault   # .vercel/project.json 생성 (gitignore 됨)
+```
+
+### GitHub Actions 로 자동 배포하기
+
+1. Vercel 대시보드 → Account Settings → Tokens 에서 토큰 발급
+2. GitHub 레포 → Settings → Secrets and variables → Actions
+   - Secrets: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` (뒤의 둘은 `www/.vercel/project.json` 에 있다)
+   - Variables: `VERCEL_DEPLOY` = `true`
+3. main 에 push 하거나 Actions 탭에서 "Deploy demo (Vercel)" 를 수동 실행
 
 ## CI (`.github/workflows/ci.yml`)
 
