@@ -125,7 +125,8 @@ cargo clippy --workspace --all-targets -- -D warnings
 | [M3 Web Worker](docs/m3-worker.md) | comlink, Transferable, 워커 풀, JS↔Rust 숫자 경계 |
 | [M4 벤치마크](docs/m4-benchmark.md) | 측정 방법론, 결과 해석, JPEG 인코더 교체 |
 | [M5 패키징 & 배포](docs/m5-packaging.md) | npm 배포, Vercel 배포, CI |
-| [Rust 개념 정리](docs/rust-concepts.md) | 이 프로젝트에 나온 Rust 개념 사전 |
+| [Rust 개념 정리](docs/rust-concepts.md) | 이 프로젝트에 나온 Rust 개념 사전 (요약) |
+| [**Rust 깊이 읽기**](docs/rust/README.md) | 문법 기초 → 소유권 → 트레잇 → 에러 → unsafe/FFI → wasm-bindgen → **코드 전체 해설** (11장) |
 
 ## 라이선스
 
