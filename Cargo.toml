@@ -1,0 +1,17 @@
+[workspace]
+resolver = "3"
+members = ["crates/core", "crates/wasm", "crates/wasm-libc"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/Archibald1948/pixelvault"
+
+# wasm 크기/속도 트레이드오프는 docs/m1-core-pipeline.md 의 측정표 참고.
+# opt-level "z"/"s" 는 크기가 ~20% 작지만 처리 속도가 30~60% 느려서, 크기 예산(gzip 500KB)
+# 안에 들어오는 3 을 택했다.
+[profile.release]
+opt-level = 3
+lto = true        # 크레이트 경계를 넘어 인라이닝 + 안 쓰는 코드 제거
+codegen-units = 1 # 병렬 컴파일을 포기하는 대신 최적화 기회를 최대로
