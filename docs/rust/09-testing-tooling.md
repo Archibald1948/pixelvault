@@ -120,6 +120,35 @@ cargo clippy --workspace --all-targets -- -D warnings
 `-D warnings` 는 경고를 에러로 만든다. CI 에 걸어 두면 경고가 쌓이지 않는다.
 특정 린트를 끄려면 `#[allow(clippy::some_lint)]` 를 그 항목에 붙이고, **왜 끄는지 주석을 남긴다.**
 
+### 함정: "로컬은 통과하는데 CI 만 빨간색"
+
+이 레포에서 실제로 겪은 일이다. 로컬 clippy(1.93)는 통과했는데 CI 는 실패했다:
+
+```
+error: using `chunks_exact` with a constant chunk size
+  --> crates/core/src/encode.rs:237:37
+  = help: consider using `as_chunks` instead: `as_chunks::<4>().0.iter()`
+  = note: `-D clippy::chunks-exact-to-as-chunks` implied by `-D warnings`
+```
+
+원인: CI 는 `dtolnay/rust-toolchain@stable` 로 **그때의 최신 stable**(1.98)을 쓰는데, 로컬 rustup 이 8개월 뒤처져 있었다.
+clippy 는 버전이 올라갈 때마다 새 린트가 추가되므로, `-D warnings` 를 쓰는 프로젝트는 **툴체인이 올라갈 때 갑자기 실패할 수 있다.**
+
+대응 방법:
+
+```bash
+rustup update                              # 로컬을 최신 stable 로
+# 또는 기본 툴체인을 건드리지 않고 CI 버전만 설치해서 재현
+rustup toolchain install 1.98.1 --component clippy,rustfmt,llvm-tools --target wasm32-unknown-unknown
+cargo +1.98.1 clippy --workspace --all-targets -- -D warnings
+```
+
+`rust-toolchain.toml` 로 버전을 고정하면 이런 일이 안 생기지만, 새 린트의 이점도 못 받는다.
+이 레포는 고정하지 않고 "CI 가 알려 주면 따라 올린다"를 택했다.
+
+> 참고로 이 린트가 제안한 `as_chunks::<4>()` 는 단순한 스타일 문제가 아니다.
+> 청크 크기가 타입(`[u8; 4]`)에 들어가서 `src[3]` 접근의 경계 검사가 사라진다 → 실제로 더 빠른 코드다.
+
 ## 8. rustfmt — 포매터
 
 ```bash
