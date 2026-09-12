@@ -1,0 +1,12 @@
+# ── wasm32 빌드 설정 ──────────────────────────────────────────────
+[target.wasm32-unknown-unknown]
+rustflags = [
+  # WebAssembly SIMD(128bit) 명령어 사용. fast_image_resize 가 이걸로 빨라진다.
+  # 모든 최신 브라우저가 지원한다 (Safari 16.4+).
+  "-C", "target-feature=+simd128",
+]
+
+[env]
+# libwebp(C) 를 wasm32 로 컴파일할 때 쓸 최소 libc 헤더.
+# 헤더 안에서 `#ifndef __wasm__` 이면 진짜 시스템 헤더로 넘기므로 네이티브 빌드엔 영향 없음.
+C_INCLUDE_PATH = { value = "crates/wasm-libc/include", relative = true }
