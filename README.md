@@ -24,7 +24,7 @@
 | 색 | ICC 프로파일(Display P3 등) 보존 |
 | BlurHash | 옵션으로 생성 + 디코더 제공 |
 | 스레드 | Web Worker 풀. `File` 을 워커에서 직접 읽고, 결과는 Transferable 로 복사 없이 반환 |
-| 크기 | wasm **411 KB** (gzip) |
+| 크기 | wasm **407 KB** (gzip) |
 
 ```ts
 import { createPixelVault } from "@archibald1948/pixelvault";
@@ -110,7 +110,7 @@ cargo clippy --workspace --all-targets -- -D warnings
 - [x] 출력물에 EXIF GPS 태그가 남아있지 않다 — `gps_is_removed_by_default` 테스트 (WebP/JPEG/PNG 결과를 kamadak-exif 로 다시 읽어 검증)
 - [x] 아이폰 세로 사진(Orientation=6)이 눕지 않는다 — `iphone_portrait_is_not_lying_down` 테스트 (3개 포맷, 픽셀 색으로 방향 검증)
 - [x] Canvas API 대비 비교표가 README 에 있다 — 위 표
-- [x] `.wasm` 파일이 gzip 기준 500KB 이하 — 411 KB, `build-wasm.sh` 가 초과 시 빌드 실패
+- [x] `.wasm` 파일이 gzip 기준 500KB 이하 — 407 KB, `build-wasm.sh` 가 초과 시 빌드 실패
 - [x] `cargo test` 전부 통과, `cargo clippy -- -D warnings` 통과 — 네이티브 + wasm32 타깃 모두
 
 ## 문서
