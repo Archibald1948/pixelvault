@@ -1,0 +1,23 @@
+[package]
+name = "pixelvault-wasm"
+description = "pixelvault-core 의 wasm-bindgen 바인딩. 로직 없음, 타입 변환만."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[lib]
+# cdylib: .wasm 파일을 만들기 위한 크레이트 타입
+# rlib:   다른 Rust 코드(테스트 등)에서 이 크레이트를 참조할 수 있게
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+pixelvault-core = { path = "../core" }
+wasm-bindgen = "0.2"
+
+[dev-dependencies]
+# wasm 으로 컴파일된 코드를 실제 wasm 런타임(Node)에서 돌리는 테스트 도구
+wasm-bindgen-test = "0.3"
+# 테스트에서 결과 이미지를 다시 디코드해 보기 위해
+image = { version = "0.25", default-features = false, features = ["webp"] }
