@@ -17,7 +17,7 @@
 ## npm 패키지 구조
 
 ```
-@archibald1948/pixelvault
+@sc0031/pixelvault
 ├── dist/
 │   ├── index.js / .d.ts     공개 API (processImage, createPixelVault, decodeBlurhash)
 │   ├── worker.js            Web Worker 진입점

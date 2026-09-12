@@ -11,4 +11,4 @@ npm install
 npm run dev
 ```
 
-`@archibald1948/pixelvault` 는 `file:../packages/pixelvault` 로 연결되어 있다. 패키지를 다시 빌드하면 바로 반영된다.
+`@sc0031/pixelvault` 는 `file:../packages/pixelvault` 로 연결되어 있다. 패키지를 다시 빌드하면 바로 반영된다.

@@ -10,7 +10,7 @@
 서버 비용 · 대역폭 · 프라이버시 문제가 한 번에 사라집니다.
 
 - **데모 사이트**: **https://pixelvault-rouge.vercel.app** — [변환기](https://pixelvault-rouge.vercel.app/) · [벤치마크](https://pixelvault-rouge.vercel.app/bench)
-- **npm 패키지**: [`@archibald1948/pixelvault`](packages/pixelvault) — Web Worker 풀 + 타입 포함
+- **npm 패키지**: [`@sc0031/pixelvault`](packages/pixelvault) — Web Worker 풀 + 타입 포함
 - **학습 문서**: [`docs/`](docs/README.md) — 마일스톤별 설계 결정과 Rust 학습 포인트
 
 ## 기능
@@ -27,7 +27,7 @@
 | 크기 | wasm **407 KB** (gzip) |
 
 ```ts
-import { createPixelVault } from "@archibald1948/pixelvault";
+import { createPixelVault } from "@sc0031/pixelvault";
 
 const vault = createPixelVault();
 const result = await vault.process(file, { format: "webp", maxWidth: 1920, blurhash: true });

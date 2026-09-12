@@ -33,7 +33,7 @@ packages/pixelvault/src/
 ```
 
 ```ts
-import { createPixelVault } from "@archibald1948/pixelvault";
+import { createPixelVault } from "@sc0031/pixelvault";
 
 const vault = createPixelVault();  // 워커 = min(4, 코어 수 - 1)
 const result = await vault.process(file, { format: "webp", maxWidth: 1920 });
