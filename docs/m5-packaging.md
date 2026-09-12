@@ -89,6 +89,31 @@ node scripts/build-vercel-output.mjs                     # → www/.vercel/outpu
 2. `config.json` 에 **경로 매핑**을 적는다 — 정적 내보내기는 `/bench` 를 `bench.html` 로 만들기 때문에,
    이걸 안 하면 `/bench` 가 404 가 된다(실제로 첫 배포에서 겪었다). 404 페이지 라우트도 여기서 연결한다.
 
+### Vercel 의 Git 자동 빌드는 꺼 둔다
+
+`vercel link` 로 프로젝트를 만들면 GitHub 연동이 함께 켜져서, push 할 때마다 **Vercel 서버가 직접 빌드를 시도**한다.
+이건 반드시 실패한다:
+
+```
+Error: No Next.js version detected. Make sure your package.json has "next" in either
+"dependencies" or "devDependencies". Also check your Root Directory setting matches ...
+```
+
+- Next 앱은 레포 루트가 아니라 `www/` 에 있고,
+- Root Directory 를 `www` 로 고쳐도 `npm ci` 단계에서 실패한다.
+  `www` 는 `file:../packages/pixelvault` 에 의존하는데, 그 패키지의 `dist/` 는 **wasm 빌드가 선행되어야** 생기기 때문이다.
+  그리고 Vercel 빌드 서버에는 Rust·wasm-pack·wasm32용 clang 이 없다.
+
+그래서 레포 루트 `vercel.json` 으로 main 브랜치의 자동 배포를 끈다:
+
+```json
+{
+  "git": { "deploymentEnabled": { "main": false } }
+}
+```
+
+배포는 아래 prebuilt 방식(로컬 또는 GitHub Actions)으로만 한다. GitHub 커밋에 빨간 X 가 뜨지 않는다.
+
 ### 처음 한 번: 프로젝트 연결
 
 ```bash
