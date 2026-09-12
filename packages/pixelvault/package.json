@@ -1,0 +1,56 @@
+{
+  "name": "@archibald1948/pixelvault",
+  "version": "0.1.0",
+  "description": "Client-side image pipeline (resize, WebP/JPEG/PNG, EXIF strip + orientation fix, BlurHash) — Rust → WebAssembly, runs in a Web Worker.",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Archibald1948/pixelvault.git",
+    "directory": "packages/pixelvault"
+  },
+  "keywords": [
+    "image",
+    "resize",
+    "webp",
+    "exif",
+    "blurhash",
+    "wasm",
+    "webassembly",
+    "rust",
+    "web-worker"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "scripts": {
+    "build": "node scripts/copy-wasm.mjs src && tsc -p tsconfig.json && node scripts/copy-wasm.mjs dist",
+    "typecheck": "node scripts/copy-wasm.mjs src && tsc -p tsconfig.json --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "comlink": "^4.4.2"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3"
+  },
+  "homepage": "https://github.com/Archibald1948/pixelvault#readme",
+  "bugs": {
+    "url": "https://github.com/Archibald1948/pixelvault/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
