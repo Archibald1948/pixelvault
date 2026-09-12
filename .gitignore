@@ -1,0 +1,19 @@
+# Rust
+/target
+
+# wasm-pack 출력 (scripts/build-wasm.sh 가 생성)
+/pkg
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# OS / 에디터
+.DS_Store
+.vscode/
+
+# 벤치마크용 대용량 이미지 (crates/core/examples/gen_bench_image.rs 로 생성)
+/bench/fixtures/
