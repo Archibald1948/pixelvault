@@ -1,6 +1,9 @@
 # Rust 개념 정리 — 이 프로젝트에 실제로 나온 것만
 
 > TS/JS 개발자 관점에서, 이 레포의 실제 코드를 예로 들어 설명한다. 각 항목의 "어디서" 를 열어서 같이 보면 좋다.
+>
+> 이 문서는 **요약 사전**이다. 각 주제를 자세히 다룬 문서는 [`rust/`](./rust/README.md) 에 있다
+> (문법 기초 · 소유권 · 트레잇 · 에러 · 컬렉션 · Cargo · unsafe/FFI · wasm-bindgen · 테스트 · **코드 전체 해설** · 성능).
 
 ## 1. 소유권 (Ownership) — 가장 중요한 하나
 
@@ -220,6 +223,22 @@ mod tests {
 - 테스트는 같은 파일 안에 둔다 (비공개 함수도 테스트 가능).
 - `assert!(matches!(err, PixelVaultError::TooLarge { width: 640, .. }))` — enum 모양으로 검사.
 - 이 프로젝트에서 테스트가 잡아낸 것: `u64` 오버플로(M1), BlurHash 에 대한 잘못된 가정(M2), JPEG 디코더의 관대함(M1).
+
+## 이 레포 안에서 더 읽을 것
+
+| 주제 | 문서 |
+|---|---|
+| 문법 기초부터 차근차근 | [rust/01-basics.md](./rust/01-basics.md) |
+| 소유권·빌림·라이프타임 심화 | [rust/02-ownership.md](./rust/02-ownership.md) |
+| 트레잇·제네릭·단형화 | [rust/03-traits-generics.md](./rust/03-traits-generics.md) |
+| 에러 처리 전략 | [rust/04-error-handling.md](./rust/04-error-handling.md) |
+| 컬렉션·이터레이터·클로저 | [rust/05-collections-iterators.md](./rust/05-collections-iterators.md) |
+| 모듈·Cargo·feature·프로필 | [rust/06-modules-cargo.md](./rust/06-modules-cargo.md) |
+| unsafe 와 C 연동 | [rust/07-unsafe-ffi.md](./rust/07-unsafe-ffi.md) |
+| wasm-bindgen 내부 동작 | [rust/08-wasm-bindgen.md](./rust/08-wasm-bindgen.md) |
+| 테스트와 도구 | [rust/09-testing-tooling.md](./rust/09-testing-tooling.md) |
+| **코드 전체 해설 (2,150줄)** | [rust/10-code-walkthrough.md](./rust/10-code-walkthrough.md) |
+| 성능과 메모리 측정 | [rust/11-performance-memory.md](./rust/11-performance-memory.md) |
 
 ## 더 공부하려면
 
