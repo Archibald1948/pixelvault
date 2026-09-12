@@ -1,7 +1,11 @@
 # pixelvault 학습 문서
 
 스펙(`rust-pixelvault.md`)을 마일스톤 순서대로 구현하면서 내린 결정, 겪은 문제, Rust 학습 포인트를 정리했다.
-**Rust 를 처음 본다면** [Rust 개념 정리](./rust-concepts.md) 를 먼저 훑고, 마일스톤 문서를 코드와 같이 읽는 걸 추천한다.
+
+**Rust 를 처음 본다면** 두 가지 경로가 있다.
+
+- 빠르게: [Rust 개념 정리](./rust-concepts.md) 한 장짜리 요약 → 마일스톤 문서
+- 제대로: [**Rust 깊이 읽기**](./rust/README.md) 11장 시리즈 (문법 기초 → 소유권 → 트레잇 → 에러 → FFI → wasm-bindgen → **코드 전체 해설**)
 
 ## 읽는 순서
 
@@ -14,6 +18,11 @@
 7. [M4 벤치마크](./m4-benchmark.md) — Canvas API vs WASM, 측정 방법론
 8. [M5 패키징 & 배포](./m5-packaging.md) — npm, Vercel, CI
 9. [Rust 개념 정리](./rust-concepts.md) — 사전처럼
+
+### Rust 를 제대로 배우려면
+
+[`rust/`](./rust/README.md) 폴더에 문법 기초부터 이 레포 코드 전체 해설까지 11장짜리 문서가 있다.
+마일스톤 문서가 "왜 이렇게 만들었나"라면, 이쪽은 "Rust 로 어떻게 쓰는가"다.
 
 ## 스펙의 "학습 포인트" 질문에 대한 답
 
