@@ -1,0 +1,11 @@
+[package]
+name = "pixelvault-wasm-libc"
+description = "wasm32-unknown-unknown 에서 libwebp(C)가 링크되도록 malloc/free/qsort 등을 제공하는 최소 libc 셈"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+# 헤더는 include/ 에 있고, 레포 루트의 .cargo/config.toml 이 C_INCLUDE_PATH 로 연결한다.
+[dependencies]
