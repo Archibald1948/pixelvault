@@ -1,0 +1,48 @@
+# 데모 사이트(www)를 Vercel 에 배포한다.
+#
+# Vercel 빌드 서버에는 Rust/wasm-pack/clang 이 없으므로, GitHub Actions 에서 wasm 까지 전부 빌드한 뒤
+# 결과물만 올리는 "prebuilt" 방식을 쓴다. 설정 방법: docs/m5-packaging.md
+#
+# 필요한 설정 (GitHub 레포 → Settings → Secrets and variables → Actions)
+#   secrets: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID
+#   variables: VERCEL_DEPLOY = true   ← 이걸 켜야 main push 때 배포가 돈다
+name: Deploy demo (Vercel)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    if: ${{ github.event_name == 'workflow_dispatch' || vars.VERCEL_DEPLOY == 'true' }}
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+          components: llvm-tools
+      - uses: Swatinem/rust-cache@v2
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-pack
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: ./scripts/build-wasm.sh
+      - working-directory: packages/pixelvault
+        run: npm ci && npm run build
+      - working-directory: www
+        run: npm ci
+
+      - run: npm install --global vercel@latest
+      - working-directory: www
+        run: |
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
