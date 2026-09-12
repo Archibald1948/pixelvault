@@ -40,21 +40,76 @@
 
 `package.json` 의 `version` 을 [SemVer](https://semver.org/lang/ko/) 로 올린다. 0.x 동안은 마이너 버전이 깨지는 변경을 뜻해도 괜찮다는 게 관례.
 
-## npm 배포 (직접 해야 하는 부분)
+## npm 배포
 
-> ⚠️ 스코프 `@archibald1948` 는 **npm 사용자명과 같아야** 한다. npm 계정 이름이 다르면 `package.json` 의 `name` 과
-> `www/package.json` 의 의존성 이름, `www` 코드의 import 경로를 바꾸자. (`pixelvault` 라는 스코프 없는 이름은 이미 누가 쓰고 있다)
+> 배포됨: **https://www.npmjs.com/package/@sc0031/pixelvault**
+>
+> ⚠️ 스코프는 **npm 사용자명과 같아야** 한다(여기서는 `sc0031`). 계정 이름이 다르면 `packages/pixelvault/package.json` 의
+> `name`, `www/package.json` 의 의존성 이름, `www` 코드의 import 경로를 함께 바꿔야 한다.
+> (`pixelvault` 라는 스코프 없는 이름은 이미 누가 쓰고 있다)
 
-```bash
-npm login                          # 한 번만
-./scripts/build-wasm.sh            # 최신 wasm
-cd packages/pixelvault
-npm run build
-npm pack --dry-run                 # 들어갈 파일 목록 최종 확인 (dist/, README, LICENSE, NOTICES)
-npm publish                        # publishConfig.access=public 이라 스코프 패키지도 공개로 올라감
+### 첫 배포에서 막혔던 것: 2FA
+
+npm 은 2025~2026 년에 정책을 강화해서 **2FA 없이는 publish 자체가 거부**된다:
+
+```
+403 Forbidden - PUT https://registry.npmjs.org/@sc0031%2fpixelvault
+Two-factor authentication or granular access token with bypass 2fa enabled is required to publish packages.
 ```
 
-`prepublishOnly` 스크립트가 `npm run build` 를 한 번 더 돌리므로 빌드를 잊어도 안전하다. (단 `/pkg` 는 미리 만들어져 있어야 한다)
+디버그 로그에서 원인을 특정한 단서는 **상태 코드**였다. npm CLI 는 OTP 를 물어볼 준비(`otplease`)까지 갔는데
+레지스트리가 **401(OTP 요구)이 아니라 403** 을 돌려줬다 → "OTP 를 달라"가 아니라 "이 계정으로는 publish 불가"라는 뜻.
+계정에 2FA 가 아예 없었던 것이다. (로그인할 때 받은 이메일 코드는 2FA 가 아니라 새 기기 확인용이다)
+
+해결: npmjs.com → Account → Two-Factor Authentication 에서 **보안 키(패스키)** 를 등록.
+그 뒤 `npm publish` 는 브라우저 승인 URL 을 띄우고, 패스키로 승인하면 배포가 진행된다.
+npm CLI 도 **11.5.1 이상**이 필요하다(웹 기반 2FA 승인, trusted publishing). 10.x 는 URL 만 출력하고 끝난다.
+
+```bash
+npm login --auth-type=web
+./scripts/build-wasm.sh
+cd packages/pixelvault && npm run build
+npm pack --dry-run    # 들어갈 파일 확인 (dist/, README, LICENSE, NOTICES)
+npm publish           # publishConfig.access=public 이라 스코프 패키지도 공개로 올라간다
+```
+
+### 이후 버전: Trusted Publishing (토큰도 2FA 승인도 없이)
+
+첫 배포 이후로는 **GitHub Actions 가 OIDC 로 자신을 증명**해서 배포한다. 레포에 비밀값을 저장하지 않고,
+사람이 패스키를 누를 필요도 없다. 배포물에는 provenance(어느 커밋·워크플로에서 나왔는지)가 자동으로 붙는다.
+
+**npm 쪽 설정** (패키지 → Settings → Trusted Publisher → GitHub Actions):
+
+| 항목 | 값 |
+|---|---|
+| Organization or user | `Archibald1948` |
+| Repository | `pixelvault` |
+| Workflow filename | `publish.yml` (파일명만. `.github/workflows/` 안에 있어야 한다) |
+| Allowed actions | ☑ Allow `npm publish` |
+
+마지막 항목이 중요하다. 체크하지 않으면 `npm stage publish`(스테이징)만 허용되어, CI 가 올려도 사람이
+npm 사이트에서 따로 공개해야 한다. "CI 는 올리기만, 공개는 내가 확인하고" 방식을 원하면 오히려 빼는 게 맞다.
+
+**워크플로 쪽 요건** (`.github/workflows/publish.yml`):
+
+```yaml
+permissions:
+  id-token: write                           # 없으면 OIDC 토큰이 발급되지 않는다
+...
+      - run: npm install --global npm@^11.9.0  # trusted publishing 은 npm 11.5.1+
+      - run: npm publish                       # 토큰 설정 없음. OIDC 로 자동 인증
+```
+
+**릴리스 방법**
+
+```bash
+cd packages/pixelvault
+npm version patch          # package.json 버전 상승 + 커밋 + v0.1.1 태그
+git push --follow-tags     # 태그가 올라가면 워크플로가 빌드하고 배포한다
+```
+
+태그 이름과 `package.json` 의 버전이 다르면 배포 직전에 실패시킨다(사고 방지).
+Actions 탭에서 수동 실행하면 기본이 dry-run 이라 빌드만 확인할 수 있다.
 
 ## Vercel 배포
 
