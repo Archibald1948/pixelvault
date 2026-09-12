@@ -6,7 +6,7 @@
 
 | 항목 | 위치 | 상태 |
 |---|---|---|
-| npm 패키지 | `packages/pixelvault` | 빌드·`npm pack` 검증 완료. **배포는 직접** (아래) |
+| npm 패키지 | `packages/pixelvault` | ✅ 배포됨: https://www.npmjs.com/package/@sc0031/pixelvault |
 | 패키지 README (영문) | `packages/pixelvault/README.md` | ✅ |
 | 서드파티 고지 | `packages/pixelvault/THIRD_PARTY_NOTICES.md` | ✅ libwebp·kamadak-exif(BSD), IJG |
 | 루트 README + 벤치 표 + GIF | `README.md`, `docs/images/demo.gif` | ✅ |
