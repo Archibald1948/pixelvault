@@ -233,8 +233,12 @@ fn encode_png(image: &DynamicImage, meta: Metadata<'_>) -> Result<Vec<u8>> {
 /// RGBA → RGB, 흰 배경 위에 알파 합성: `out = c·a + 255·(1−a)`
 fn flatten_on_white(rgba: &RgbaImage) -> RgbImage {
     let mut out = RgbImage::new(rgba.width(), rgba.height());
-    // chunks_exact(4): 픽셀 단위로 4바이트씩 잘라 보는 "뷰". 새 메모리를 만들지 않는다.
-    for (src, dst) in rgba.as_raw().chunks_exact(4).zip(out.chunks_exact_mut(3)) {
+    // as_chunks::<4>(): 픽셀 단위로 4바이트씩 잘라 보는 "뷰"(새 메모리를 만들지 않는다).
+    // 청크 크기가 타입(`[u8; 4]`)에 박혀 있어서, chunks_exact(4) 와 달리 src[3] 접근에
+    // 경계 검사가 필요 없다 → 컴파일러가 더 잘 최적화한다.
+    let (src_pixels, _) = rgba.as_raw().as_chunks::<4>();
+    let (dst_pixels, _) = out.as_chunks_mut::<3>();
+    for (src, dst) in src_pixels.iter().zip(dst_pixels) {
         let a = u16::from(src[3]);
         for c in 0..3 {
             let v = u16::from(src[c]) * a + 255 * (255 - a);
