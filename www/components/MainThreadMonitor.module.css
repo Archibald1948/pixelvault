@@ -1,0 +1,47 @@
+.monitor {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.track {
+  position: relative;
+  width: 160px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--surface);
+}
+
+.ballWrap {
+  position: absolute;
+  inset: 0 14px 0 0;
+  will-change: transform;
+}
+
+.ball {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #38a169;
+}
+
+.bad {
+  background: #e53e3e;
+}
+
+.numbers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.numbers strong {
+  color: var(--foreground);
+  font-variant-numeric: tabular-nums;
+}
