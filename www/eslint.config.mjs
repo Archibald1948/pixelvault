@@ -11,6 +11,8 @@ const eslintConfig = defineConfig([
     ".next/**",
     "out/**",
     "build/**",
+    // 배포용 정적 산출물 (scripts/build-vercel-output.mjs 가 out/ 을 복사해 둔 것)
+    ".vercel/**",
     "next-env.d.ts",
   ]),
 ]);
