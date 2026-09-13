@@ -111,6 +111,24 @@ git push --follow-tags     # 태그가 올라가면 워크플로가 빌드하고
 태그 이름과 `package.json` 의 버전이 다르면 배포 직전에 실패시킨다(사고 방지).
 Actions 탭에서 수동 실행하면 기본이 dry-run 이라 빌드만 확인할 수 있다.
 
+**검증 결과 (v0.1.1, 2026-09-13)** — 태그 `v0.1.1` 푸시 한 번으로 끝까지 자동으로 진행됐다:
+
+```
+✓ Check tag matches package version
+✓ Publish
+  npm notice publish Signed provenance statement with source and build information from GitHub Actions
+  npm notice publish Provenance statement published to transparency log: https://search.sigstore.dev/?logIndex=2813646156
+  + @sc0031/pixelvault@0.1.1
+```
+
+- 토큰·2FA 승인 없이 OIDC 로만 인증됨
+- 레지스트리에 SLSA provenance(`https://slsa.dev/provenance/v1`) attestation 이 붙음
+- 설치하는 쪽에서 검증 가능: `npm audit signatures` → *"1 package has a verified attestation"*
+- npm 패키지 페이지에 "Built and signed on GitHub Actions" 표시가 생긴다 — 이 버전이 이 레포의 이 커밋에서 빌드됐다는 증명
+
+> 참고: `npm version patch` 는 자동으로 커밋 메시지를 `0.1.1` 로만 만든다. 이 레포는 Conventional Commits 규칙을 쓰므로
+> `npm version patch --no-git-tag-version` 으로 버전만 올리고, `chore(release): v0.1.1` 로 직접 커밋한 뒤 `git tag -a v0.1.1` 했다.
+
 ## Vercel 배포
 
 > 배포됨: **https://pixelvault-rouge.vercel.app**
