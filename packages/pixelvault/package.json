@@ -1,6 +1,6 @@
 {
   "name": "@sc0031/pixelvault",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Client-side image pipeline (resize, WebP/JPEG/PNG, EXIF strip + orientation fix, BlurHash) — Rust → WebAssembly, runs in a Web Worker.",
   "license": "MIT",
   "type": "module",
