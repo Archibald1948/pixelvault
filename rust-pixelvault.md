@@ -1,12 +1,10 @@
 # pixelvault
 
-> 브라우저 안에서 끝나는 이미지 처리 파이프라인 — Rust → WebAssembly + Next.js
+브라우저 안에서 끝나는 이미지 처리 파이프라인 — Rust → WebAssembly + Next.js
 
 **레포명**: `pixelvault` (대안: `clientside-image-lab`, `wasm-imagekit`)
 **언어**: Rust (edition 2024) / TypeScript
 **예상 기간**: 2~3주 (M3까지 기준)
-
----
 
 ## 1. 무엇을 만드는가
 
@@ -155,8 +153,6 @@ M2 이후는 아직 하지 마. 각 단계에서 왜 그 크레이트/자료구�
 - `Result` + `thiserror`로 에러를 WASM 경계까지 어떻게 전달하는가 (`JsValue` 변환)
 - `image::DynamicImage`의 소유권이 파이프라인을 타고 어떻게 이동하는가
 - 왜 `fast_image_resize`가 `image::imageops::resize`보다 빠른가 (SIMD, 커널 분리)
-
----
 
 ## 부록 — 크레이트 최신 안정 버전 (crates.io 확인, 2026-09-08)
 
