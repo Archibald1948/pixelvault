@@ -1,14 +1,3 @@
-# npm 배포 — Trusted Publishing (OIDC)
-#
-# 토큰도, 2FA 승인도 필요 없다. GitHub Actions 가 발급한 OIDC 토큰을 npm 이 검증해서
-# "이 레포의 이 워크플로가 맞다"고 확인되면 배포를 허용한다.
-# (npmjs.com → 패키지 → Settings → Trusted Publisher 에 레포와 이 파일명이 등록되어 있어야 한다)
-#
-# 릴리스 방법:
-#   cd packages/pixelvault && npm version patch   # package.json 버전 상승 + 커밋 + 태그
-#   git push --follow-tags                        # v0.1.1 태그가 올라가면 이 워크플로가 배포한다
-#
-# 수동 실행(workflow_dispatch)은 기본이 dry-run 이라 실제로 올리지 않는다.
 name: Publish to npm
 
 on:
