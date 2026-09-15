@@ -1,11 +1,3 @@
-# 데모 사이트(www)를 Vercel 에 배포한다.
-#
-# Vercel 빌드 서버에는 Rust/wasm-pack/clang 이 없으므로, GitHub Actions 에서 wasm 까지 전부 빌드한 뒤
-# 정적 산출물만 올리는 "prebuilt" 방식을 쓴다. 설정 방법: docs/m5-packaging.md
-#
-# 필요한 설정 (GitHub 레포 → Settings → Secrets and variables → Actions)
-#   secrets:   VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID
-#   variables: VERCEL_DEPLOY = true   ← 이걸 켜야 main push 때 배포가 돈다
 name: Deploy demo (Vercel)
 
 on:
