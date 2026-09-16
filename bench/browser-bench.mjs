@@ -1,11 +1,4 @@
 // 벤치마크 페이지(/bench)를 헤드리스 Chrome 에서 돌리고 결과 마크다운을 저장한다.
-// 가려진 탭처럼 CPU 우선순위가 깎이지 않아서 README 용 숫자를 뽑기에 좋다.
-//
-//   (www 에서) npm run build && npm start      # 다른 터미널
-//   node bench/browser-bench.mjs [url]         # 기본 http://localhost:3000/bench
-//
-// 환경변수: CHROME=/path/to/chrome, RUNS=5, FORMATS=webp,jpeg,png
-// 외부 의존성 없이 Node 22 의 내장 WebSocket 으로 Chrome DevTools Protocol 을 직접 쓴다.
 import { spawn } from "node:child_process";
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
