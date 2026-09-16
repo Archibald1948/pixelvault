@@ -1,9 +1,4 @@
 // Node 에서 pkg/ 의 wasm 을 직접 불러 처리 시간을 잰다. (브라우저 없이 빠르게 비교할 때)
-//
-//   node bench/node-bench.mjs [이미지 경로...]
-//
-// 기본 입력: bench/fixtures/photo-12mp.jpg, photo-24mp.jpg
-//   (없으면: cargo run --release -p pixelvault-core --example gen_bench_image)
 import { readFileSync, existsSync } from "node:fs";
 import { basename, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
