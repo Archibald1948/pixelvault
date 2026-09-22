@@ -1,6 +1,3 @@
-// wasm-pack 출력(/pkg)을 패키지 안(src/wasm 또는 dist/wasm)으로 복사한다.
-//   node scripts/copy-wasm.mjs src   — 타입체크용 (.d.ts 가 있어야 import 가 타입을 가진다)
-//   node scripts/copy-wasm.mjs dist  — 배포용 (.js glue + .wasm)
 import { copyFileSync, existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
