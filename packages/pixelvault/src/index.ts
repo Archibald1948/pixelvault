@@ -1,13 +1,5 @@
 /**
  * pixelvault — 브라우저 안에서 끝나는 이미지 처리 파이프라인 (Rust → WebAssembly)
- *
- * ```ts
- * import { createPixelVault } from "@sc0031/pixelvault";
- *
- * const vault = createPixelVault();               // Web Worker 풀 (메인 스레드를 막지 않음)
- * const result = await vault.process(file, { format: "webp", maxWidth: 1920 });
- * const blob = new Blob([result.bytes], { type: result.mimeType });
- * ```
  */
 import * as Comlink from "comlink";
 import { decodeBlurhashSync, loadWasm, processBytes, toBytes } from "./core.js";
@@ -19,10 +11,6 @@ export { loadWasm };
 
 // ── 메인 스레드 API (스펙의 기본 형태) ────────────────────────────────────
 
-/**
- * 현재 스레드에서 이미지 한 장을 처리한다. 간단하지만 처리하는 동안 **호출한 스레드가 멈춘다.**
- * UI 가 있는 페이지에서는 {@link createPixelVault} 를 쓰자.
- */
 export async function processImage(input: ImageInput, options: ProcessOptions): Promise<ProcessResult> {
   await loadWasm();
   return processBytes(await toBytes(input), options);
