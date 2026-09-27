@@ -1,10 +1,3 @@
-//! 벤치마크용 "사진 같은" 큰 JPEG 를 만든다 (git 에는 올리지 않음, bench/fixtures/ 는 gitignore).
-//!
-//!     cargo run --release -p pixelvault-core --example gen_bench_image
-//!
-//! 실제 사진처럼 부드러운 그라데이션 + 중간 주파수 무늬 + 픽셀 단위 노이즈(센서 노이즈 흉내)를 섞는다.
-//! 노이즈가 없으면 JPEG/WebP 가 비현실적으로 잘 압축되어 벤치마크가 의미 없어진다.
-
 use std::fs;
 use std::path::Path;
 
