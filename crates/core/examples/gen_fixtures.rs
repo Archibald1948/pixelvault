@@ -1,8 +1,3 @@
-//! 테스트용 샘플 이미지를 생성한다. 결과물은 `tests/fixtures/` 에 커밋되어 있고,
-//! 이 예제는 "어떻게 만들어졌는지"를 재현할 수 있게 남겨 둔 것이다.
-//!
-//!     cargo run -p pixelvault-core --example gen_fixtures
-
 use std::fs;
 use std::path::Path;
 
