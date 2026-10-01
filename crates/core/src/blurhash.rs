@@ -1,18 +1,8 @@
-//! BlurHash: 이미지를 20~30자 문자열로 요약한 "흐릿한 미리보기".
-//!
-//! 이미지를 몇 개의 코사인 성분(DCT 와 비슷)으로 근사해서 base83 문자열로 인코딩한다.
-//! 서버 DB 에 이 문자열만 저장해 두면, 진짜 이미지가 로드되기 전에 색감이 맞는 흐린 플레이스홀더를
-//! 즉시 그릴 수 있다. (예: `LEHV6nWB2yk8pyo0adR*.7kCMdnj`)
-
 use image::DynamicImage;
 
 use crate::error::{PixelVaultError, Result};
 use crate::resize;
 
-/// BlurHash 계산 전에 이미지를 이 크기 안으로 줄인다.
-///
-/// 인코딩 비용은 `가로 × 세로 × 성분 수` 에 비례한다. 1920×1440 을 그대로 넣으면 수백 ms 가 걸리지만,
-/// 결과는 어차피 4×3 개의 성분뿐이라 32px 로 줄여도 문자열은 사실상 같다.
 const SAMPLE_SIZE: u32 = 32;
 
 /// 이미지의 BlurHash 문자열을 만든다.
