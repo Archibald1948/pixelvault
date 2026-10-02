@@ -1,5 +1,3 @@
-//! 1단계: 바이트 → 픽셀 (`&[u8]` → `DynamicImage`)
-
 use std::io::Cursor;
 
 use image::{DynamicImage, ImageDecoder, ImageError, ImageFormat, ImageReader, Limits};
@@ -7,10 +5,7 @@ use image::{DynamicImage, ImageDecoder, ImageError, ImageFormat, ImageReader, Li
 use crate::error::{PixelVaultError, Result};
 
 /// 디코드된 이미지가 차지할 수 있는 최대 메모리 (기본 1 GiB).
-///
-/// wasm32 는 포인터가 32비트라 주소 공간이 4 GiB 가 한계다. 그 안에 입력 바이트,
-/// 디코드된 픽셀, 리사이즈 결과, 인코딩 결과가 동시에 올라가므로 넉넉히 1/4 로 잡았다.
-/// (8000×6000 사진 = 4800만 픽셀 × 4바이트 ≈ 192 MB → 여유 있게 통과)
+
 pub const DEFAULT_MAX_DECODED_BYTES: u64 = 1 << 30;
 
 /// 디코드 결과. 이미지 픽셀과 함께 원본 포맷과 메타데이터 원본 바이트를 들고 다닌다.
@@ -30,9 +25,7 @@ pub fn decode(input: &[u8]) -> Result<Decoded> {
 }
 
 /// 입력 바이트를 디코드한다.
-///
-/// `input` 은 `&[u8]` (빌린 슬라이스) 다. 원본 바이트를 복사하지 않고 그대로 읽는다.
-/// `Cursor` 는 슬라이스에 "현재 읽는 위치"만 붙여서 `Read + Seek` 로 만들어 주는 얇은 래퍼다.
+
 pub fn decode_with_limit(input: &[u8], max_decoded_bytes: u64) -> Result<Decoded> {
     // 확장자가 아니라 파일 앞부분의 매직 바이트(JPEG 는 FF D8 FF …)로 포맷을 추측한다.
     let mut reader = ImageReader::new(Cursor::new(input))
@@ -69,10 +62,7 @@ pub fn decode_with_limit(input: &[u8], max_decoded_bytes: u64) -> Result<Decoded
 }
 
 /// `가로 × 세로 × 4` 바이트(RGBA 최악의 경우)가 한도를 넘는지 검사한다.
-///
-/// `u32 * u32` 는 쉽게 넘친다(65536×65536 = 2^32). 그래서 `u64` 로 넓혀서 곱하고,
-/// 그래도 넘칠 수 있는 극단값(u32::MAX² × 4 > u64::MAX)은 `saturating_mul` 로 최댓값에 고정한다.
-/// (릴리스 빌드에서 정수 오버플로는 panic 없이 조용히 wrap-around 되므로, 검사 로직이 뚫릴 수 있다)
+
 pub fn check_decoded_size(width: u32, height: u32, limit_bytes: u64) -> Result<()> {
     let needed_bytes = u64::from(width)
         .saturating_mul(u64::from(height))
@@ -89,9 +79,7 @@ pub fn check_decoded_size(width: u32, height: u32, limit_bytes: u64) -> Result<(
 }
 
 /// 이후 단계가 다룰 픽셀 형식을 두 가지(RGB8, RGBA8)로 통일한다.
-///
-/// `image: DynamicImage` 를 값으로(소유권째) 받는다. 이미 RGB8/RGBA8 이면 그대로 돌려주는데,
-/// 이때 픽셀 버퍼는 복사되지 않고 소유권만 이동한다. 그 외(흑백, 16비트 PNG 등)만 변환한다.
+
 pub fn to_8bit_rgb_or_rgba(image: DynamicImage) -> DynamicImage {
     match image {
         DynamicImage::ImageRgb8(_) | DynamicImage::ImageRgba8(_) => image,
