@@ -1,8 +1,6 @@
 # pixelvault
 
-> 브라우저 안에서 끝나는 이미지 처리 파이프라인 — **Rust → WebAssembly** + Next.js
->
-> Resize, convert, strip EXIF and generate BlurHash entirely in the browser. No upload, no server.
+브라우저 안에서 끝나는 이미지 처리 파이프라인 — **Rust → WebAssembly** + Next.js
 
 [![npm](https://img.shields.io/npm/v/@sc0031/pixelvault?color=cb3837&logo=npm)](https://www.npmjs.com/package/@sc0031/pixelvault)
 [![CI](https://github.com/Archibald1948/pixelvault/actions/workflows/ci.yml/badge.svg)](https://github.com/Archibald1948/pixelvault/actions/workflows/ci.yml)
