@@ -1,8 +1,4 @@
 // README 용 데모 GIF 를 헤드리스 Chrome 으로 녹화한다.
-//
-//   (www 에서) npm run build && npm start      # 다른 터미널, 기본 포트 3000
-//   node scripts/record-demo.mjs [url]         # → docs/images/demo.gif
-//
 // 필요: Google Chrome, ffmpeg, bench/fixtures/*.jpg (cargo run --release -p pixelvault-core --example gen_bench_image)
 import { spawn, spawnSync } from "node:child_process";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
