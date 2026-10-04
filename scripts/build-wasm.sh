@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 # crates/wasm 을 wasm-pack 으로 빌드해서 /pkg 에 npm 패키지 형태로 출력한다.
-#
-#   ./scripts/build-wasm.sh          # release 빌드
-#   ./scripts/build-wasm.sh --dev    # 디버그 빌드 (빠르지만 크고 느림)
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -34,8 +31,6 @@ wasm-pack build "$ROOT/crates/wasm" \
 WASM="$ROOT/pkg/pixelvault_bg.wasm"
 
 # ── 링크 검증 ─────────────────────────────────────────────────────────────
-# C 함수가 링크되지 않으면 링커는 에러 대신 "env" 모듈의 JS import 로 남겨 버린다.
-# 그러면 빌드는 성공한 것처럼 보이다가 브라우저에서 instantiate 할 때 터진다. 여기서 미리 잡는다.
 node -e '
   const m = new WebAssembly.Module(require("fs").readFileSync(process.argv[1]));
   const bad = WebAssembly.Module.imports(m).filter(i => i.module === "env").map(i => i.name);
