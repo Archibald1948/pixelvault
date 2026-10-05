@@ -1,8 +1,4 @@
 // 이미지 품질 지표 — SSIM, PSNR. 벤치마크 페이지 전용.
-//
-// SSIM(Structural Similarity): 두 이미지의 밝기·대비·구조가 얼마나 비슷한지 0~1 로 나타낸다(1 = 동일).
-// PSNR 보다 사람 눈의 판단과 잘 맞는다. 여기서는 휘도(Y) 채널에 8×8 창을 4px 간격으로 밀면서 계산한다.
-
 function luma(img: ImageData): Float32Array {
   const { data, width, height } = img;
   const out = new Float32Array(width * height);
