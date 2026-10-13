@@ -1,9 +1,4 @@
 //! 파이프라인 전체에서 쓰는 에러 타입.
-//!
-//! `thiserror` 의 `#[derive(Error)]` 가 `std::error::Error` 와 `Display` 구현을 만들어 준다.
-//! 각 단계 함수는 `Result<T, PixelVaultError>` 를 돌려주고, 호출하는 쪽은 `?` 로 위로 전파한다.
-//! wasm 크레이트에서는 이 에러가 `JsError` 로 바뀌어 JS 의 `Error` 로 throw 된다.
-
 /// `Result<T, PixelVaultError>` 를 줄여 쓰기 위한 별칭.
 pub type Result<T> = std::result::Result<T, PixelVaultError>;
 
