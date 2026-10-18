@@ -1,8 +1,4 @@
-//! wasm 런타임 스모크 테스트. 로직 검증은 core 의 `cargo test` 가 하고,
-//! 여기서는 "wasm 으로 빌드했을 때도 똑같이 동작하는가"(특히 libwebp + libc 셈)만 확인한다.
-//!
 //!     ./scripts/test-wasm.sh
-
 use pixelvault_wasm::{decode_blurhash, process_image_raw};
 use wasm_bindgen_test::*;
 
