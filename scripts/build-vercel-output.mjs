@@ -1,11 +1,7 @@
 // Next.js 정적 내보내기(www/out)를 Vercel Build Output API v3 형식(www/.vercel/output)으로 감싼다.
-//
 //   PIXELVAULT_STATIC_EXPORT=1 npm --prefix www run build
 //   node scripts/build-vercel-output.mjs
 //   (cd www && npx vercel deploy --prebuilt --prod)
-//
-// 왜 이렇게 하나: 이 데모는 서버 기능이 하나도 없는 정적 사이트다. Vercel 의 Next.js 빌더를 쓰면
-// 레포 루트/프로젝트 루트 설정에 얽히는데(모노레포라 www 가 하위 폴더), 정적 파일만 올리면 그런 게 없다.
 import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
