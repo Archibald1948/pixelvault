@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# crates/wasm 을 wasm-pack 으로 빌드해서 /pkg 에 npm 패키지 형태로 출력한다.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -9,8 +8,6 @@ if [[ "${1:-}" == "--dev" ]]; then
 fi
 
 # ── libwebp(C) 를 wasm 오브젝트로 묶으려면 llvm-ar 가 필요하다 ──────────────
-# macOS 기본 ar 는 wasm 오브젝트의 심볼 인덱스를 만들지 못해서 링크 시 libwebp 함수를 못 찾는다.
-# rustup 의 llvm-tools 컴포넌트에 들어 있는 llvm-ar 를 쓴다.
 HOST="$(rustc -vV | sed -n 's/^host: //p')"
 LLVM_AR="$(rustc --print sysroot)/lib/rustlib/$HOST/bin/llvm-ar"
 if [[ ! -x "$LLVM_AR" ]]; then
