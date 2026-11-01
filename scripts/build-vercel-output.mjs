@@ -1,7 +1,4 @@
 // Next.js 정적 내보내기(www/out)를 Vercel Build Output API v3 형식(www/.vercel/output)으로 감싼다.
-//   PIXELVAULT_STATIC_EXPORT=1 npm --prefix www run build
-//   node scripts/build-vercel-output.mjs
-//   (cd www && npx vercel deploy --prebuilt --prod)
 import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
