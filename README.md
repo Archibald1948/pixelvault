@@ -136,4 +136,4 @@ cargo clippy --workspace --all-targets -- -D warnings
 
 ## 라이선스
 
-MIT. wasm 바이너리에는 libwebp(BSD-3-Clause), kamadak-exif(BSD-2-Clause), IJG 코드 일부가 포함됩니다 — [THIRD_PARTY_NOTICES](packages/pixelvault/THIRD_PARTY_NOTICES.md).
+MIT. wasm 바이너리에는 libwebp(BSD-3-Clause), kamadak-exif(BSD-2-Clause), IJG 코드 일부가 포함됩니다 — [THIRD_PARTY_NOTICES](packages/pixelvault/THIRD_PARTY_NOTICES.md). | [LICENSE](https://github.com/Archibald1948/pixelvault/blob/main/LICENSE)
