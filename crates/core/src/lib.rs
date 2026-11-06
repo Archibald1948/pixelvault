@@ -1,11 +1,3 @@
-//! pixelvault-core — 브라우저와 무관한 순수 Rust 이미지 처리 로직.
-//!
-//! 모든 로직은 이 크레이트에 두고 네이티브에서 `cargo test` 로 검증한다.
-//! `pixelvault-wasm` 은 여기 있는 함수를 JS 타입으로 변환해 노출하는 얇은 껍데기일 뿐이다.
-//!
-//! 파이프라인: [`decode`] → [`resize`] → [`exif`] 방향 보정 → [`encode`], 조립은 [`pipeline::process`].
-//! 부가 기능: [`blurhash`] 플레이스홀더, [`webp_meta`] WebP 메타데이터 청크.
-
 pub mod blurhash;
 pub mod decode;
 pub mod encode;
