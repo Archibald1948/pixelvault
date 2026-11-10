@@ -7,5 +7,8 @@ license.workspace = true
 repository.workspace = true
 publish = false
 
+[lib]
+test = false
+
 # 헤더는 include/ 에 있고, 레포 루트의 .cargo/config.toml 이 C_INCLUDE_PATH 로 연결한다.
 [dependencies]

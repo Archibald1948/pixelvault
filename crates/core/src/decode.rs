@@ -5,7 +5,6 @@ use image::{DynamicImage, ImageDecoder, ImageError, ImageFormat, ImageReader, Li
 use crate::error::{PixelVaultError, Result};
 
 /// 디코드된 이미지가 차지할 수 있는 최대 메모리 (기본 1 GiB).
-
 pub const DEFAULT_MAX_DECODED_BYTES: u64 = 1 << 30;
 
 /// 디코드 결과. 이미지 픽셀과 함께 원본 포맷과 메타데이터 원본 바이트를 들고 다닌다.
@@ -25,7 +24,6 @@ pub fn decode(input: &[u8]) -> Result<Decoded> {
 }
 
 /// 입력 바이트를 디코드한다.
-
 pub fn decode_with_limit(input: &[u8], max_decoded_bytes: u64) -> Result<Decoded> {
     // 확장자가 아니라 파일 앞부분의 매직 바이트(JPEG 는 FF D8 FF …)로 포맷을 추측한다.
     let mut reader = ImageReader::new(Cursor::new(input))
@@ -62,7 +60,6 @@ pub fn decode_with_limit(input: &[u8], max_decoded_bytes: u64) -> Result<Decoded
 }
 
 /// `가로 × 세로 × 4` 바이트(RGBA 최악의 경우)가 한도를 넘는지 검사한다.
-
 pub fn check_decoded_size(width: u32, height: u32, limit_bytes: u64) -> Result<()> {
     let needed_bytes = u64::from(width)
         .saturating_mul(u64::from(height))
@@ -79,7 +76,6 @@ pub fn check_decoded_size(width: u32, height: u32, limit_bytes: u64) -> Result<(
 }
 
 /// 이후 단계가 다룰 픽셀 형식을 두 가지(RGB8, RGBA8)로 통일한다.
-
 pub fn to_8bit_rgb_or_rgba(image: DynamicImage) -> DynamicImage {
     match image {
         DynamicImage::ImageRgb8(_) | DynamicImage::ImageRgba8(_) => image,
