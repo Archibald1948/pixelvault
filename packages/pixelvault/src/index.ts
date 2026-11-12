@@ -1,6 +1,3 @@
-/**
- * pixelvault — 브라우저 안에서 끝나는 이미지 처리 파이프라인 (Rust → WebAssembly)
- */
 import * as Comlink from "comlink";
 import { decodeBlurhashSync, loadWasm, processBytes, toBytes } from "./core.js";
 import { WorkerPool } from "./pool.js";
@@ -94,10 +91,6 @@ export class PixelVault {
     });
   }
 
-  /**
-   * 여러 장을 처리한다. 결과는 **입력 순서대로** 돌려주고, 하나가 실패해도 나머지는 계속한다.
-   * 진행 상황은 `onProgress` 로 한 장 끝날 때마다 알려 준다(끝나는 순서는 입력 순서와 다를 수 있음).
-   */
   async processMany(
     inputs: readonly ImageInput[],
     options: ProcessOptions,
